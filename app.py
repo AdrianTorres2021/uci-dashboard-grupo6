@@ -18,7 +18,7 @@ import xgboost as xgb
 # CONFIGURACIÓN Y ESTILO
 # ======================================================================
 st.set_page_config(page_title="Mortalidad UCI — Dashboard",
-                   page_icon="🫀", layout="wide",
+                   page_icon="🏥", layout="wide",
                    initial_sidebar_state="expanded")
 
 ART = Path(__file__).parent / "artifacts"
@@ -83,10 +83,9 @@ GENDER_MAP = {"M": "Masculino", "F": "Femenino"}
 # SIDEBAR
 # ======================================================================
 with st.sidebar:
-    st.markdown('<p class="sidebar-title">🫀 Mortalidad UCI<br>Dashboard</p>',
+    st.markdown('<p class="sidebar-title">🏥 Mortalidad UCI<br>Dashboard</p>',
                 unsafe_allow_html=True)
-    st.markdown('<p class="sidebar-sub">Proyecto Integrador — Predicción de '
-                'mortalidad hospitalaria en UCI</p>', unsafe_allow_html=True)
+    st.markdown('<p class="sidebar-sub">Predicción de mortalidad hospitalaria en UCI</p>', unsafe_allow_html=True)
     st.divider()
 
     st.subheader("Fuente de datos")
