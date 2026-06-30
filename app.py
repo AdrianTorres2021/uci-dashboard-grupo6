@@ -15,6 +15,53 @@ import streamlit as st
 import xgboost as xgb
 
 # ======================================================================
+# DESCRIPCIONES DE VARIABLES (tooltips informativos)
+# ======================================================================
+INFO_VARS = {
+    "hospital_death": "`hospital_death` — Variable objetivo: 1 = el paciente falleció en el hospital, 0 = sobrevivió.",
+    "age": "`age` — Edad del paciente en años.",
+    "bmi": "`bmi` — Índice de masa corporal (peso kg / altura² m²).",
+    "gender": "`gender` — Sexo del paciente (M/F).",
+    "ethnicity": "`ethnicity` — Grupo étnico declarado del paciente.",
+    "icu_type": "`icu_type` — Tipo de unidad de cuidados intensivos de admisión (MICU, SICU, CCU-CTICU, etc.).",
+    "height": "`height` — Estatura del paciente en cm.",
+    "weight": "`weight` — Peso del paciente en kg.",
+    "pre_icu_los_days": "`pre_icu_los_days` — Días entre el ingreso al hospital y el ingreso a la UCI.",
+    "heart_rate_apache": "`heart_rate_apache` — Frecuencia cardíaca de las primeras 24 h que produce el puntaje APACHE III más alto (valor más alterado).",
+    "map_apache": "`map_apache` — Presión arterial media (MAP) de las primeras 24 h usada en el puntaje APACHE III.",
+    "temp_apache": "`temp_apache` — Temperatura corporal de las primeras 24 h usada en el puntaje APACHE III.",
+    "resprate_apache": "`resprate_apache` — Frecuencia respiratoria de las primeras 24 h usada en el puntaje APACHE III.",
+    "sodium_apache": "`sodium_apache` — Sodio sérico de las primeras 24 h (APACHE III).",
+    "creatinine_apache": "`creatinine_apache` — Creatinina sérica (función renal), usada en APACHE III.",
+    "bun_apache": "`bun_apache` — Nitrógeno ureico en sangre (BUN); marcador de función renal (APACHE III).",
+    "bilirubin_apache": "`bilirubin_apache` — Bilirrubina sérica (función hepática), usada en APACHE III.",
+    "hematocrit_apache": "`hematocrit_apache` — Hematocrito (% de glóbulos rojos), usado en APACHE III.",
+    "fio2_apache": "`fio2_apache` — Fracción inspirada de oxígeno (FiO₂), usada en APACHE III.",
+    "gcs_eyes_apache": "`gcs_eyes_apache` — Apertura ocular de la escala de Glasgow (1–4); a menor valor, peor estado neurológico.",
+    "gcs_motor_apache": "`gcs_motor_apache` — Componente motor de Glasgow (1–6); a menor valor, peor respuesta.",
+    "gcs_verbal_apache": "`gcs_verbal_apache` — Componente verbal de Glasgow (1–5); a menor valor, peor respuesta.",
+    "d1_heartrate_max": "`d1_heartrate_max` — Frecuencia cardíaca más alta en las primeras 24 h en UCI.",
+    "d1_heartrate_min": "`d1_heartrate_min` — Frecuencia cardíaca más baja en las primeras 24 h en UCI.",
+    "h1_sysbp_max": "`h1_sysbp_max` — Presión arterial sistólica máxima durante la primera hora en UCI.",
+    "h1_diasbp_noninvasive_min": "`h1_diasbp_noninvasive_min` — Presión arterial diastólica mínima (no invasiva) en la primera hora.",
+    "d1_resprate_max": "`d1_resprate_max` — Frecuencia respiratoria máxima en las primeras 24 h.",
+    "d1_resprate_min": "`d1_resprate_min` — Frecuencia respiratoria mínima en las primeras 24 h.",
+    "h1_resprate_max": "`h1_resprate_max` — Frecuencia respiratoria máxima en la primera hora.",
+    "h1_resprate_min": "`h1_resprate_min` — Frecuencia respiratoria mínima en la primera hora.",
+    "d1_spo2_min": "`d1_spo2_min` — Saturación de oxígeno (SpO₂) más baja en las primeras 24 h.",
+    "d1_temp_min": "`d1_temp_min` — Temperatura corporal más baja en las primeras 24 h.",
+    "d1_temp_max": "`d1_temp_max` — Temperatura corporal más alta en las primeras 24 h.",
+    "d1_glucose_min": "`d1_glucose_min` — Glucosa en sangre más baja en las primeras 24 h.",
+    "ventilated_apache": "`ventilated_apache` — Indica si recibió ventilación mecánica invasiva (1 = sí).",
+    "intubated_apache": "`intubated_apache` — Indica si el paciente fue intubado (1 = sí).",
+    "apache_post_operative": "`apache_post_operative` — Indica si ingresó a UCI tras una cirugía (1 = postoperatorio).",
+    "diabetes_mellitus": "`diabetes_mellitus` — Antecedente de diabetes mellitus (1 = sí).",
+    "apache_2_diagnosis": "`apache_2_diagnosis` — Código de diagnóstico de admisión a UCI según APACHE II.",
+    "apache_2_bodysystem": "`apache_2_bodysystem` — Sistema corporal afectado según la clasificación APACHE II.",
+    "apache_3j_bodysystem": "`apache_3j_bodysystem` — Sistema corporal afectado según la clasificación APACHE III.",
+}
+
+# ======================================================================
 # CONFIGURACIÓN Y ESTILO
 # ======================================================================
 st.set_page_config(page_title="Mortalidad UCI — Dashboard",
@@ -218,13 +265,21 @@ with tab_a:
             corr = f[num_cols].corr().round(2)
             fig = px.imshow(corr, text_auto=True, aspect="auto",
                             color_continuous_scale="RdBu_r", zmin=-1, zmax=1)
+            etiquetas = corr.columns.tolist()
+            def _desc(c): return INFO_VARS.get(c, c).split("—", 1)[-1].strip()
+            custom = [[f"<b>{yv}</b>: {_desc(yv)}<br><b>{xv}</b>: {_desc(xv)}" for xv in etiquetas] for yv in etiquetas]
+            fig.update_traces(customdata=custom, hovertemplate="Correlación: %{z}<br>%{customdata}<extra></extra>")
             fig.update_layout(template=TEMPLATE, height=360,
                               margin=dict(l=10, r=10, t=10, b=10))
             st.plotly_chart(fig, use_container_width=True)
 
         with st.expander("📋 Ver tabla de datos filtrados"):
-            st.dataframe(f.drop(columns=["Desenlace"]).reset_index(drop=True),
-                         use_container_width=True, height=380)
+            st.dataframe(
+                f.drop(columns=["Desenlace"]).reset_index(drop=True),
+                use_container_width=True, height=380,
+                column_config={c: st.column_config.Column(help=INFO_VARS.get(c))
+                               for c in f.drop(columns=["Desenlace"]).columns},
+            )
 
 
 # ----------------------------------------------------------------------
@@ -252,40 +307,40 @@ with tab_b:
 
     # ---------- Columna 1: demografía y presión ----------
     with col1:
-        age = st.slider("Edad (años)", 16, 89, 65)
-        bmi = st.slider("Índice de masa corporal (IMC)", 14.0, 68.0, 27.8, 0.1)
-        pre_icu = st.slider("Días previos al ingreso a UCI", 0.0, 84.0, 0.1, 0.1)
-        map_apache = st.slider("Presión arterial media — APACHE (mmHg)", 40, 200, 66)
-        h1_sysbp_max = st.slider("PAS máx. primera hora (mmHg)", 75, 223, 131)
-        gcs_eyes = st.slider("GCS ocular (apertura)", 1, 4, 4)
-        d1_hr_min = st.slider("Frec. cardíaca mín. día 1 (lpm)", 0, 175, 70)
-        h1_diasbp_nm = st.checkbox("PAD mín. 1ª hora no medida")
+        age = st.slider("Edad (años)", 16, 89, 65, help=INFO_VARS["age"])
+        bmi = st.slider("Índice de masa corporal (IMC)", 14.0, 68.0, 27.8, 0.1, help=INFO_VARS["bmi"])
+        pre_icu = st.slider("Días previos al ingreso a UCI", 0.0, 84.0, 0.1, 0.1, help=INFO_VARS["pre_icu_los_days"])
+        map_apache = st.slider("Presión arterial media — APACHE (mmHg)", 40, 200, 66, help=INFO_VARS["map_apache"])
+        h1_sysbp_max = st.slider("PAS máx. primera hora (mmHg)", 75, 223, 131, help=INFO_VARS["h1_sysbp_max"])
+        gcs_eyes = st.slider("GCS ocular (apertura)", 1, 4, 4, help=INFO_VARS["gcs_eyes_apache"])
+        d1_hr_min = st.slider("Frec. cardíaca mín. día 1 (lpm)", 0, 175, 70, help=INFO_VARS["d1_heartrate_min"])
+        h1_diasbp_nm = st.checkbox("PAD mín. 1ª hora no medida", help=INFO_VARS["h1_diasbp_noninvasive_min"])
         h1_diasbp = st.slider("PAD mín. primera hora — no invasiva (mmHg)",
-                              22, 114, 62, disabled=h1_diasbp_nm)
+                              22, 114, 62, disabled=h1_diasbp_nm, help=INFO_VARS["h1_diasbp_noninvasive_min"])
 
     # ---------- Columna 2: respiratorio, temperatura, glucosa ----------
     with col2:
-        resprate_apache = st.slider("Frec. respiratoria — APACHE (rpm)", 4, 60, 28)
-        d1_rr_max = st.slider("Frec. respiratoria máx. día 1 (rpm)", 14, 92, 26)
-        d1_rr_min = st.slider("Frec. respiratoria mín. día 1 (rpm)", 0, 96, 13)
-        h1_rr_max = st.slider("Frec. respiratoria máx. primera hora (rpm)", 10, 59, 21)
-        h1_rr_min = st.slider("Frec. respiratoria mín. primera hora (rpm)", 0, 189, 16)
-        d1_spo2 = st.slider("SpO₂ mínima día 1 (%)", 0, 100, 93)
-        d1_temp_min = st.slider("Temperatura mín. día 1 (°C)", 31.9, 37.8, 36.4, 0.1)
-        d1_temp_max = st.slider("Temperatura máx. día 1 (°C)", 35.1, 39.9, 37.2, 0.1)
-        glu_nm = st.checkbox("Glucosa mín. día 1 no medida")
-        d1_glu = st.slider("Glucosa mín. día 1 (mg/dl)", 33, 288, 105, disabled=glu_nm)
+        resprate_apache = st.slider("Frec. respiratoria — APACHE (rpm)", 4, 60, 28, help=INFO_VARS["resprate_apache"])
+        d1_rr_max = st.slider("Frec. respiratoria máx. día 1 (rpm)", 14, 92, 26, help=INFO_VARS["d1_resprate_max"])
+        d1_rr_min = st.slider("Frec. respiratoria mín. día 1 (rpm)", 0, 96, 13, help=INFO_VARS["d1_resprate_min"])
+        h1_rr_max = st.slider("Frec. respiratoria máx. primera hora (rpm)", 10, 59, 21, help=INFO_VARS["h1_resprate_max"])
+        h1_rr_min = st.slider("Frec. respiratoria mín. primera hora (rpm)", 0, 189, 16, help=INFO_VARS["h1_resprate_min"])
+        d1_spo2 = st.slider("SpO₂ mínima día 1 (%)", 0, 100, 93, help=INFO_VARS["d1_spo2_min"])
+        d1_temp_min = st.slider("Temperatura mín. día 1 (°C)", 31.9, 37.8, 36.4, 0.1, help=INFO_VARS["d1_temp_min"])
+        d1_temp_max = st.slider("Temperatura máx. día 1 (°C)", 35.1, 39.9, 37.2, 0.1, help=INFO_VARS["d1_temp_max"])
+        glu_nm = st.checkbox("Glucosa mín. día 1 no medida", help=INFO_VARS["d1_glucose_min"])
+        d1_glu = st.slider("Glucosa mín. día 1 (mg/dl)", 33, 288, 105, disabled=glu_nm, help=INFO_VARS["d1_glucose_min"])
 
     # ---------- Columna 3: banderas clínicas y diagnósticos ----------
     with col3:
         si_no = {"No": 0, "Sí": 1}
-        ventilated = si_no[st.selectbox("¿Ventilación invasiva?", ["No", "Sí"])]
-        intubated = si_no[st.selectbox("¿Paciente intubado?", ["No", "Sí"])]
-        postop = si_no[st.selectbox("¿Postoperatorio (APACHE)?", ["No", "Sí"])]
-        diabetes = si_no[st.selectbox("¿Diabetes mellitus?", ["No", "Sí"])]
-        dx2 = st.selectbox("Diagnóstico APACHE-2", ["Otro", "Código 308", "Código 302"])
-        bsys2 = st.selectbox("Sistema corporal APACHE-2", ["Otro", "Metabólico"])
-        bsys3 = st.selectbox("Sistema corporal APACHE-3J", ["Otro", "Cardiovascular"])
+        ventilated = si_no[st.selectbox("¿Ventilación invasiva?", ["No", "Sí"], help=INFO_VARS["ventilated_apache"])]
+        intubated = si_no[st.selectbox("¿Paciente intubado?", ["No", "Sí"], help=INFO_VARS["intubated_apache"])]
+        postop = si_no[st.selectbox("¿Postoperatorio (APACHE)?", ["No", "Sí"], help=INFO_VARS["apache_post_operative"])]
+        diabetes = si_no[st.selectbox("¿Diabetes mellitus?", ["No", "Sí"], help=INFO_VARS["diabetes_mellitus"])]
+        dx2 = st.selectbox("Diagnóstico APACHE-2", ["Otro", "Código 308", "Código 302"], help=INFO_VARS["apache_2_diagnosis"])
+        bsys2 = st.selectbox("Sistema corporal APACHE-2", ["Otro", "Metabólico"], help=INFO_VARS["apache_2_bodysystem"])
+        bsys3 = st.selectbox("Sistema corporal APACHE-3J", ["Otro", "Cardiovascular"], help=INFO_VARS["apache_3j_bodysystem"])
 
     predecir = st.button("🔎 Predecir", use_container_width=True, type="primary")
 
