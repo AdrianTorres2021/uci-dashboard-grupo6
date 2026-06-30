@@ -1,0 +1,269 @@
+{
+  "variables_finales": [
+    "ventilated_apache",
+    "age",
+    "gcs_eyes_apache",
+    "apache_post_operative",
+    "d1_spo2_min",
+    "d1_resprate_max",
+    "d1_heartrate_min",
+    "d1_temp_min",
+    "map_apache",
+    "h1_sysbp_max",
+    "pre_icu_los_days",
+    "d1_temp_max",
+    "d1_glucose_min",
+    "bmi",
+    "apache_2_bodysystem_Metabolic",
+    "h1_diasbp_noninvasive_min",
+    "d1_resprate_min",
+    "h1_resprate_min",
+    "intubated_apache",
+    "resprate_apache",
+    "h1_resprate_max",
+    "apache_3j_bodysystem_Cardiovascular",
+    "apache_2_diagnosis_308",
+    "diabetes_mellitus",
+    "apache_2_diagnosis_302"
+  ],
+  "meta": {
+    "ventilated_apache": {
+      "tipo": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.3252182672934856
+    },
+    "age": {
+      "tipo": "numeric",
+      "min": 16.0,
+      "max": 89.0,
+      "median": 65.0,
+      "mean": 62.38381464069845
+    },
+    "gcs_eyes_apache": {
+      "tipo": "numeric",
+      "min": 1.0,
+      "max": 4.0,
+      "median": 4.0,
+      "mean": 3.446524513096038
+    },
+    "apache_post_operative": {
+      "tipo": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.2025968211327513
+    },
+    "d1_spo2_min": {
+      "tipo": "numeric",
+      "min": 0.0,
+      "max": 100.0,
+      "median": 93.0,
+      "mean": 90.63945321244684
+    },
+    "d1_resprate_max": {
+      "tipo": "numeric",
+      "min": 14.0,
+      "max": 92.0,
+      "median": 26.0,
+      "mean": 28.790421423774344
+    },
+    "d1_heartrate_min": {
+      "tipo": "numeric",
+      "min": 0.0,
+      "max": 175.0,
+      "median": 70.0,
+      "mean": 70.50142713230356
+    },
+    "d1_temp_min": {
+      "tipo": "numeric",
+      "min": 31.889,
+      "max": 37.8,
+      "median": 36.4,
+      "mean": 36.27191304790687
+    },
+    "map_apache": {
+      "tipo": "numeric",
+      "min": 40.0,
+      "max": 200.0,
+      "median": 66.0,
+      "mean": 88.16074826505485
+    },
+    "h1_sysbp_max": {
+      "tipo": "numeric",
+      "min": 75.0,
+      "max": 223.0,
+      "median": 131.0,
+      "mean": 133.1680098500112
+    },
+    "pre_icu_los_days": {
+      "tipo": "numeric",
+      "min": 0.0,
+      "max": 84.36736111,
+      "median": 0.140277778,
+      "mean": 0.8250842404415996
+    },
+    "d1_temp_max": {
+      "tipo": "numeric",
+      "min": 35.1,
+      "max": 39.9,
+      "median": 37.16,
+      "mean": 37.29487351354376
+    },
+    "d1_glucose_min": {
+      "tipo": "numeric",
+      "min": -99999.0,
+      "max": 288.0,
+      "median": 105.0,
+      "mean": -5561.694369823147
+    },
+    "bmi": {
+      "tipo": "numeric",
+      "min": 14.84492591,
+      "max": 67.81498973,
+      "median": 27.8006876,
+      "mean": 29.308407760254084
+    },
+    "apache_2_bodysystem_Metabolic": {
+      "tipo": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.08684519811954332
+    },
+    "h1_diasbp_noninvasive_min": {
+      "tipo": "numeric",
+      "min": -99999.0,
+      "max": 114.0,
+      "median": 62.0,
+      "mean": -3215.527731139467
+    },
+    "d1_resprate_min": {
+      "tipo": "numeric",
+      "min": 0.0,
+      "max": 96.0,
+      "median": 13.0,
+      "mean": 12.845449966420416
+    },
+    "h1_resprate_min": {
+      "tipo": "numeric",
+      "min": 0.0,
+      "max": 189.0,
+      "median": 16.0,
+      "mean": 17.173816319677638
+    },
+    "intubated_apache": {
+      "tipo": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.14976494291470785
+    },
+    "resprate_apache": {
+      "tipo": "numeric",
+      "min": 4.0,
+      "max": 60.0,
+      "median": 28.0,
+      "mean": 25.730900212670694
+    },
+    "h1_resprate_max": {
+      "tipo": "numeric",
+      "min": 10.0,
+      "max": 59.0,
+      "median": 21.0,
+      "mean": 22.573805126483098
+    },
+    "apache_3j_bodysystem_Cardiovascular": {
+      "tipo": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.3217343854936199
+    },
+    "apache_2_diagnosis_308": {
+      "tipo": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.04368144168345646
+    },
+    "diabetes_mellitus": {
+      "tipo": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.2305098500111932
+    },
+    "apache_2_diagnosis_302": {
+      "tipo": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.07272778150884263
+    }
+  },
+  "comparacion": [
+    {
+      "Modelo": "XGBoost",
+      "Accuracy": 0.8441,
+      "F1-Score": 0.416,
+      "Precision": 0.2983,
+      "Recall": 0.6874,
+      "AUC": 0.8686
+    },
+    {
+      "Modelo": "Regresión Logística",
+      "Accuracy": 0.7985,
+      "F1-Score": 0.379,
+      "Precision": 0.2524,
+      "Recall": 0.761,
+      "AUC": 0.8657
+    },
+    {
+      "Modelo": "Random Forest",
+      "Accuracy": 0.8212,
+      "F1-Score": 0.3891,
+      "Precision": 0.2687,
+      "Recall": 0.7048,
+      "AUC": 0.8594
+    },
+    {
+      "Modelo": "CatBoost",
+      "Accuracy": 0.8891,
+      "F1-Score": 0.428,
+      "Precision": 0.367,
+      "Recall": 0.5134,
+      "AUC": 0.8505
+    },
+    {
+      "Modelo": "Árbol de Decisión",
+      "Accuracy": 0.7605,
+      "F1-Score": 0.3222,
+      "Precision": 0.2089,
+      "Recall": 0.7048,
+      "AUC": 0.7871
+    }
+  ],
+  "modelo_ganador": "XGBoost",
+  "final_metrics": {
+    "AUC": 0.8583,
+    "Accuracy": 0.8351,
+    "Precision": 0.2852,
+    "Recall": 0.6909,
+    "F1": 0.4037,
+    "confusion": [
+      [
+        11140,
+        2000
+      ],
+      [
+        357,
+        798
+      ]
+    ]
+  },
+  "tasa_mortalidad": 8.080087306917394,
+  "n_pacientes": 71472,
+  "n_registros": 71472
+}

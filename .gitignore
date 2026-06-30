@@ -1,0 +1,15 @@
+# Datos pesados (no se necesitan para la app; solo para re-entrenar)
+training_v2.csv
+*.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Streamlit / SO
+.streamlit/secrets.toml
+.DS_Store
+Thumbs.db
